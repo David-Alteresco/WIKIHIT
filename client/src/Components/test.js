@@ -6,9 +6,8 @@ const wikiFetch = () => {wikiPage.fetch({
     section: 'page',
     type: 'html',
     title: 'Pony',
-    }, () => {;
-        wiki.wikiHtml = 'hello world';
-       
+    }, (data) => {;
+        wiki.WikiHtml = data;
 })};
 
 export default wikiFetch;

@@ -101,7 +101,6 @@ export default view(() => {
         /> */} 
         <div>
         {wiki.wikiHtml === null ? <div>NO RESULTS YET</div> : <div>{wiki.wikiHtml}</div>}
-        <div />
         </div>
       </Drawer>
     </div>

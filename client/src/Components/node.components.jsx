@@ -12,7 +12,6 @@ const MindNode = () => {
     const [name, setName] = useState("");
 
     const onElementClick = (event, element) => {
-        console.log('click', element);
         getWikiHtml();
     };
     
