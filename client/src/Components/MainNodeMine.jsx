@@ -1,5 +1,5 @@
 import React from 'react';
-import MindNode from './node.components';
+import MindNode from './nodeComponents';
 import LeftPane from './LeftPane';
 import RightPane from './RightPane';
 import { view } from 'react-easy-state';

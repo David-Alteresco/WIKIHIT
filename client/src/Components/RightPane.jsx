@@ -11,6 +11,7 @@ import { wiki } from '../stores';
 import InnerHTML from 'dangerously-set-html-content';
 import getWikiHtml from './getWikiHtml';
 
+
 const drawerWidth = 650;
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,6 +79,7 @@ export default view(() => {
     /* console.log(wiki.nodes[wiki.nodes.length-2]);
     console.log(wiki.nodes[wiki.nodes.length-1]); */
     console.log(wiki.nodes);
+    
   };
 
   return (
@@ -116,4 +118,4 @@ export default view(() => {
       </Drawer>
     </div>
   );
-})
+});
