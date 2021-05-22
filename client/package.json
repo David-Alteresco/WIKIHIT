@@ -10,6 +10,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
+    "dangerously-set-html-content": "^1.0.8",
     "dompurify": "^2.2.8",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -22,7 +23,9 @@
     "web-vitals": "^1.0.1",
     "wiki-page": "^1.0.0",
     "wikiapi": "^1.15.1",
-    "wikijs": "^6.2.0"
+    "wikijs": "^6.2.0",
+    "wtf-plugin-html": "^0.2.2",
+    "wtf_wikipedia": "^9.0.0"
   },
   "scripts": {
     "start": "react-dotenv && react-scripts start",

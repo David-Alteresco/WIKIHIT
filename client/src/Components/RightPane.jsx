@@ -6,13 +6,12 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import Iframe from 'react-iframe';
 import { view } from 'react-easy-state';
 import { wiki } from '../stores';
-import { wikiData } from './test';
+import InnerHTML from 'dangerously-set-html-content';
+import getWikiHtml from './getWikiHtml';
 
 const drawerWidth = 650;
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -58,6 +57,7 @@ export default view(() => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -65,6 +65,19 @@ export default view(() => {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+  
+
+  const reRender = () => {
+    const currentId = wiki.currentId;
+    const newTitle = document.getElementById("changeUrlWIKIProject").innerHTML;
+    getWikiHtml(newTitle);
+    wiki.nodes.push({id:((wiki.nodes.length)+1).toString(), type: 'input', data: {label: newTitle, title:newTitle}, position: {x: 150, y: 150}});
+    wiki.nodes.push({id:((wiki.nodes.length)+1).toString(), source: currentId, target: (wiki.nodes.length).toString(), animated: false});
+    wiki.currentId = ((wiki.nodes.length)-1).toString();
+    /* console.log(wiki.nodes[wiki.nodes.length-2]);
+    console.log(wiki.nodes[wiki.nodes.length-1]); */
+    console.log(wiki.nodes);
   };
 
   return (
@@ -91,16 +104,14 @@ export default view(() => {
             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
-         {/* <Iframe
-        width="100%"
-        height="100%"
-        id="myId"
-        className="myClassname"
-        display="initial"
-        position="sticky"
-        /> */} 
         <div>
-        {wiki.wikiHtml === null ? <div>NO RESULTS YET</div> : <div>{wiki.wikiHtml}</div>}
+        {/* {wiki.wikiHtml === null ? <div>NO RESULTS YET</div> : <div dangerouslySetInnerHTML={{__html:wiki.wikiHtml}}></div>} */}
+        {wiki.wikiHtml === null ? <div>NO RESULTS YET</div> : <InnerHTML html={wiki.wikiHtml} />}
+        </div>
+        <div>
+
+        {/* {wiki.wikiHtml === null ? '' : <input type="text" id='changeUrlWIKIProject' onChange={handleChange} value={titleLink}/>} */}
+        <div id='changeUrlWIKIProject' onClick={reRender}></div>
         </div>
       </Drawer>
     </div>
