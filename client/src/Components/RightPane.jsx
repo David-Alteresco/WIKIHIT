@@ -10,6 +10,7 @@ import { view } from 'react-easy-state';
 import { wiki } from '../stores';
 import InnerHTML from 'dangerously-set-html-content';
 import getWikiHtml from './getWikiHtml';
+import InsertUrlToNodeByUser from './InsertUrlToNodeByUser';
 
 
 const drawerWidth = 650;
@@ -18,7 +19,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   menuButton: {
-    marginLeft: theme.spacing(2),
+  marginLeft: theme.spacing(2),
+  top: '10%',
+  width:'20px',
+  right: '3%',
+  bottom: 0,
+  position:'absolute',
+  height:'20px',
   },
   hide: {
     display: 'none',
@@ -73,12 +80,12 @@ export default view(() => {
     const currentId = wiki.currentId;
     const newTitle = document.getElementById("changeUrlWIKIProject").innerHTML;
     getWikiHtml(newTitle);
-    wiki.nodes.push({id:((wiki.nodes.length)+1).toString(), type: 'input', data: {label: newTitle, title:newTitle}, position: {x: 150, y: 150}});
+    wiki.nodes.push({id:((wiki.nodes.length)+1).toString(), type: '', data: {label: newTitle, title:newTitle}, position: {x: 150, y: 150}, background: 'white'});
     wiki.nodes.push({id:((wiki.nodes.length)+1).toString(), source: currentId, target: (wiki.nodes.length).toString(), animated: false});
     wiki.currentId = ((wiki.nodes.length)-1).toString();
     /* console.log(wiki.nodes[wiki.nodes.length-2]);
     console.log(wiki.nodes[wiki.nodes.length-1]); */
-    console.log(wiki.nodes);
+    //console.log(wiki.nodes);
     
   };
 
@@ -101,14 +108,17 @@ export default view(() => {
           paper: classes.drawerPaper,
         }}
       >
-        <div className={classes.drawerHeader}>
+        <div className={classes.drawerHeader} >
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
         <div>
-        {/* {wiki.wikiHtml === null ? <div>NO RESULTS YET</div> : <div dangerouslySetInnerHTML={{__html:wiki.wikiHtml}}></div>} */}
-        {wiki.wikiHtml === null ? <div>NO RESULTS YET</div> : <InnerHTML html={wiki.wikiHtml} />}
+          {
+            (wiki.wikiHtml === null && <div>NO RESULTS YET</div>) || 
+            (wiki.wikiHtml === 'No Title' && <InsertUrlToNodeByUser />) || 
+            (wiki.wikiHtml !== 'No Title' && <InnerHTML html={wiki.wikiHtml} />)
+          }
         </div>
         <div>
 

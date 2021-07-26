@@ -4,38 +4,38 @@ import axios from "axios";
 import Card from './Card';
 import NewCard from './NewCard';
 import { Grid } from '@material-ui/core';
+import { view } from 'react-easy-state';
+import { projects } from '../stores';
+import AppBar from './AppBar';
 
-function Projects() {
-    const [userProjectList, setUserProjectList] = useState([]);
-    const [updateSessionStorage, setUpdateSessionStorage] = useState(true);
+export default view(() => {
     const load = async () => {
         try{
             const userId = sessionStorage.getItem("userId");
-            const getUserData = await axios.post(`${env.API_URL}api/Projects`,{ userId: userId});
-            setUserProjectList(getUserData.data);
-            setUpdateSessionStorage(false);
+            const getUserData = await axios.post(`${process.env.REACT_APP_API_KEY}api/Projects`,{ userId: userId});
+            projects.isInLocalStorage = false;
+            for (let i = 0; i < getUserData.data.length; i++) {
+                (projects.data).push(getUserData.data[i]);
+            }
         }catch(err){
             console.log(err);
         }
     };
-    if(updateSessionStorage){
+
+    if(projects.isInLocalStorage){
         load();
     }
     
-        
-    return (
+return (
     <div>
+        <AppBar/>
         <Grid container>
-        <grid item md={4}>
-                <NewCard />
-        </grid>
-        {userProjectList.map(obj => {
-            return <grid item md={4}>
-                <Card/>
+        {(projects.data).map(obj => {
+            return <grid item md={2} id={`cardId-${obj._id}`}>
+                <Card idNum={obj._id} title={obj.projectName} status= {obj.status} />
             </grid>
         })}
         </Grid>  
     </div>
-)};
+)});
 
-export default Projects;

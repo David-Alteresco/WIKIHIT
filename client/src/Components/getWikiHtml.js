@@ -2,7 +2,10 @@ import { wiki } from '../stores';
 
 const wikiFetch =  async (title) => {
     try{
-        const url = `https://en.wikipedia.org/w/api.php?action=parse&page=${title}&origin=*&prop=text&formatversion=2&format=json`; // site that doesn’t send Access-Control
+      let url = null;
+        url = `https://en.wikipedia.org/w/api.php?action=parse&page=${title}&origin=*&prop=text&formatversion=2&format=json`;
+      
+         // site that doesn’t send Access-Control
           const response = await fetch(url);
           if (!response.ok) {
             throw Error(response.statusText);

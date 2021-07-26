@@ -9,6 +9,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
+
 app.post('/api/wikisearch/title', async(request, response) => {
     const title = request.body.title;
     try{
@@ -19,6 +20,18 @@ app.post('/api/wikisearch/title', async(request, response) => {
         console.log(err);
     }
     
+});
+
+
+app.post('/api/Main',async (req, res) => {
+    const projectId = req.body.projectId;
+    const sqlInsert = `SELECT * FROM chartdata WHERE id = ?`;
+    try{
+        const data = await db.execute(sqlInsert, [projectId]);
+        res.send(data[0]);
+    }catch(err){
+        console.log(err);
+    };
 });
 
 app.post('/api/Login',async (req, res) => {
@@ -45,6 +58,26 @@ app.post('/api/Register',async (req, res) => {
     };
 });
 
+app.put('/api/Main/saveChart',async (req, res) => {
+    const nodes = req.body.nodes;
+    const projectId = req.body.projectId;
+    let nodesToString = '[';
+   /*  nodes.map((node) => {
+        nodesToString += node.toString();
+    });
+    nodesToString += ']'; */
+    console.log(typeof(nodes));
+    const nodesToSql = JSON.stringify(nodes);
+    console.log(typeof(nodesToSql));
+    const sqlInsert = "UPDATE chartdata SET data ='" + nodesToSql + "' WHERE id ='" + projectId + "'";
+    try{
+        const data = await db.execute(sqlInsert);
+        res.send(data[0]);
+    }catch(err){
+        console.log(err);
+    };
+});
+
 app.post('/api/Projects', async (req, res) => {
     const userId = req.body.userId;
     const sqlInsert = `SELECT * FROM projects WHERE userId = ?`;
@@ -57,13 +90,13 @@ app.post('/api/Projects', async (req, res) => {
 });
 
 
-app.use(express.static(path.join("public")));
+app.use(express.static(path.join("build")));
 
 app.use((req, res, next) => {
-  res.sendFile(path.resolve(__dirname, "public", "index.html"));
+  res.sendFile(path.resolve(__dirname, "build", "index.html"));
 });
 
-const port = process.env.PORT|| 3001;
+const port = process.env.PORT || 3001;
 app.listen(port, () => {
     console.log(`Runing on port ${port}`);
 });

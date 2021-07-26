@@ -12,7 +12,7 @@ function Search() {
     const [searchResults, setSearchResults] = useState([]);
 
    const submit = async() => {
-    const wikiData = await axios.post(`${env.API_URL}api/wikisearch/title`,{title: searchTitle})
+    const wikiData = await axios.post(`${process.env.REACT_APP_API_KEY}api/wikisearch/title`,{title: searchTitle})
     setSearchResults (wikiData.data.query.search);
    }
 

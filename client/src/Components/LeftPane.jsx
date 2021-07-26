@@ -1,15 +1,19 @@
 import React from 'react';
 import clsx from 'clsx';
+import Button from '@material-ui/core/Button';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import Search from './Search'
+import { view } from 'react-easy-state';
+import NodeEditor from './NodeEditor';
+import EdgeEditor from './EdgeEditor';
+import nodePosition from './getNodePositionById'; 
+import { wiki } from '../stores';
+import isNodeOrEdge from './isNodeOrEdge';
+
 
 const drawerWidth = 300;
 
@@ -56,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PersistentDrawerLeft() {
+export default view(() => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -67,6 +71,10 @@ export default function PersistentDrawerLeft() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const deleteNode = () => {
+    wiki.nodes.splice(nodePosition(), 1);
   };
 
   return (
@@ -93,8 +101,13 @@ export default function PersistentDrawerLeft() {
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
-        <Search/>
+        <div>
+          {isNodeOrEdge() === 'node' ? <NodeEditor/> : <EdgeEditor/>}
+        </div>
+        <Button variant="contained" color="secondary" onClick={deleteNode}>
+        Delete Node
+        </Button>
       </Drawer>
     </div>
   );
-}
+});

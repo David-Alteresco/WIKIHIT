@@ -1,0 +1,51 @@
+[{
+  "id": "1",
+  "type": "",
+  "data": {
+    "label": "50 Cent",
+    "title": "50_Cent"
+  },
+  "position": {
+    "x": 0,
+    "y": 0
+  },
+  "style": {
+    "background": "#fff",
+    "color": "#000000",
+    "border": "1px solid #222138",
+    "fontWeight": "bold"
+  }
+},
+{
+  "id": "2",
+  "type": "",
+  "data": {
+    "label": "King David",
+    "title": "David"
+  },
+  "position": {
+    "x": 100,
+    "y": 100
+  },
+  "style": {
+    "background": "#fff",
+    "color": "#000000",
+    "border": "1px solid #222138",
+    "fontWeight": ""
+  }
+},
+{
+  "id": "3",
+  "source": "1",
+  "target": "2",
+  "type": "step",
+  "style": {
+    "stroke": "#f6ab6c"
+  },
+  "label": "a step edge",
+  "animated": true,
+  "labelStyle": {
+    "fill": "#f6ab6c",
+    "fontWeight": "bold"
+  }
+}]
